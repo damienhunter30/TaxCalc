@@ -2,6 +2,7 @@ package calculations;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.text.*;
 import javax.swing.*;
 
 public class Gui extends JFrame implements ActionListener{
@@ -116,17 +117,14 @@ public class Gui extends JFrame implements ActionListener{
 			}
 			
 			double salary = Double.parseDouble(salaryField.getText());
-			double prsi = PayrollCalculator.prsiCalculate(salary);
-			double paye = PayrollCalculator.payeCalculate(salary, status);
-			double usc = PayrollCalculator.uscCalculate(salary);
-			payeField.setText("" + paye);
-			prsiField.setText("" + prsi);
-			uscField.setText("" + usc);
-			
-			double total = prsi + paye + usc;
-			payableField.setText("" + total);
-			salary = salary - total;
-			netField.setText("" + salary);
+			double prsi = PayrollCalculator.prsiCalculate(salary), paye = PayrollCalculator.payeCalculate(salary, status), usc = PayrollCalculator.uscCalculate(salary);			
+			NumberFormat formatter = new DecimalFormat("#0.00");
+
+			payeField.setText("€" + formatter.format(paye));
+			prsiField.setText("€" + formatter.format(prsi));
+			uscField.setText("€" + formatter.format(usc));
+			payableField.setText("€" + formatter.format(prsi + paye + usc));
+			netField.setText("€" + formatter.format(salary - (prsi + paye + usc)));
 		}
 		if(e.getSource() == clear){
 			salaryField.setText("");
